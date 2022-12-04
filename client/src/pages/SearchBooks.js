@@ -25,6 +25,7 @@ const SearchBooks = () => {
   });
 
   // useMutation Apollo hook for SAVE_BOOK
+  // eslint-disable-next-line no-unused-vars
   const [saveBook, {data, loading, error}] = useMutation(SAVE_BOOK);
 
   // create method to search for books and set state on form submit
@@ -72,7 +73,8 @@ const SearchBooks = () => {
 
     try {
       // const response = await saveBook(bookToSave, token);
-      const {data, loading, error} = saveBook({
+      // eslint-disable-next-line no-unused-vars
+      const {data, loading, error} = await saveBook({
         variables: { ...bookToSave }
       })
       console.log(data)
