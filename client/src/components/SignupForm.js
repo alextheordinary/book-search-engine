@@ -14,7 +14,7 @@ const SignupForm = () => {
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
   // eslint-disable-next-line no-unused-vars
-  const [addUser, {data, loading, error}] = useMutation(ADD_USER);
+  const [addUser, { data, loading, error }] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -32,18 +32,17 @@ const SignupForm = () => {
     }
 
     try {
-      const {data, error} = await addUser({
+      console.log('the user form data');
+      console.log(userFormData);
+      const { data } = await addUser({
         variables: {
           ...userFormData
-      }});
+        }
+      });
 
-      if (error) {
-        throw new Error('something went wrong!');
-      }
-
-      const { token, user } = data;
-      console.log(user);
-      Auth.login(token);
+      console.log('the token on signup')
+      console.log(data.addUser.token);
+      Auth.login(data.addUser.token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);

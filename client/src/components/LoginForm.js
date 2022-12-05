@@ -12,8 +12,8 @@ const LoginForm = () => {
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-    // eslint-disable-next-line no-unused-vars
-    const [loginUser, {data, loading, error}] = useMutation(LOGIN_USER);
+  // eslint-disable-next-line no-unused-vars
+  const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -31,19 +31,12 @@ const LoginForm = () => {
     }
 
     try {
-      const {data, error} = await loginUser({
+      const { data } = await loginUser({
         variables: {
           ...userFormData
         }
-      })
-
-      if (error) {
-        throw new Error('something went wrong!');
-      }
-
-      const { token, user } = data;
-      console.log(user);
-      Auth.login(token);
+      });
+      Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);

@@ -26,7 +26,6 @@ const resolvers = {
             }
 
             const token = signToken(user);
-
             return { token, user };
         },
         addUser: async (parent, { username, email, password }, context) => {
@@ -34,19 +33,20 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        saveBook: async (parent, { authors, description, title, bookId, image, link }, context) => {
+        saveBook: async (parent, args, context) => {
             if (context.user) {
+                console.log('i got inside the context')
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     {
                         $addToSet: {
                             savedBooks: {
-                                authors,
-                                description,
-                                title,
-                                bookId,
-                                image,
-                                link
+                                authors: args.input.authors,
+                                description: args.input.description,
+                                title: args.input.title,
+                                bookId: args.input.bookId,
+                                image: args.input.image,
+                                link: args.input.link
                             }
                         }
                     },

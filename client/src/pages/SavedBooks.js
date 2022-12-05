@@ -13,23 +13,27 @@ import { useMutation } from '@apollo/client';
 
 const SavedBooks = () => {
   const [userData, setUserData] = useState({});
-  const {data, loading} = useQuery(GET_ME);
+  const { loading, data } = useQuery(GET_ME);
   setUserData(data);
+
+
+
 
 
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
+    console.log(token);
     // eslint-disable-next-line react-hooks/rules-of-hooks, no-unused-vars
-    const [removeBook, {data, loading, error}] = useMutation(REMOVE_BOOK);
+    const [removeBook, { data, loading, error }] = useMutation(REMOVE_BOOK);
 
     if (!token) {
       return false;
     }
 
     try {
-      const {data, error} = await removeBook({
+      const { data, error } = await removeBook({
         variables: {
           bookId: bookId
         }
