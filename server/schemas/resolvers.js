@@ -34,9 +34,9 @@ const resolvers = {
             return { token, user };
         },
         saveBook: async (parent, args, context, info) => {
-            // if (context.user) {
+            if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
-                    { _id: '638d4a3402233e2a68841964' },
+                    { _id: context.user._id  },
                     {
                         $addToSet: {
                             savedBooks: {
@@ -52,17 +52,17 @@ const resolvers = {
                     { new: true, runValidators: true }
                 );
                 return updatedUser;
-            // }
+            }
         },
         removeBook: async (parent, { bookId }, context) => {
-            // if (context.user) {
+            if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
-                    { _id: '638d4a3402233e2a68841964' },
+                    { _id: context.user._id },
                     { $pull: { savedBooks: { bookId: bookId } } },
                     { new: true }
                 );
                 return updatedUser;
-            // }
+            }
         }
     }
 };
