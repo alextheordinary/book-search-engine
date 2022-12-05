@@ -66,7 +66,6 @@ const SearchBooks = () => {
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log(token);
     if (!token) {
       return false;
     }
@@ -74,12 +73,10 @@ const SearchBooks = () => {
     try {
       // const response = await saveBook(bookToSave, token);
       // eslint-disable-next-line no-unused-vars
-      console.log('book to save');
-      console.log(bookToSave);
       const {data, error} = await saveBook({
         variables: { input: {...bookToSave} }
       });
-      console.log(data)
+
 
       if (error) {
         throw new Error('something went wrong!');
