@@ -12,9 +12,11 @@ import { REMOVE_BOOK } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
   const { loading, data } = useQuery(GET_ME);
-  setUserData(data);
+  let userData = data?.me || '';
+
+      // eslint-disable-next-line react-hooks/rules-of-hooks, no-unused-vars
+      const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
 
 
@@ -24,9 +26,7 @@ const SavedBooks = () => {
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log(token);
-    // eslint-disable-next-line react-hooks/rules-of-hooks, no-unused-vars
-    const [removeBook, { data, loading, error }] = useMutation(REMOVE_BOOK);
+
 
     if (!token) {
       return false;
@@ -38,13 +38,14 @@ const SavedBooks = () => {
           bookId: bookId
         }
       })
+      console.log(data);
 
       if (error) {
         throw new Error('something went wrong!');
       }
 
       const updatedUser = data;
-      setUserData(updatedUser);
+      userData = updatedUser;
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
